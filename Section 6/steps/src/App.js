@@ -7,6 +7,15 @@ const messages = [
 ];
 
 const App = () => {
+  return (
+    <div>
+      <Step />
+      <Step />
+    </div>
+  );
+};
+
+const Step = () => {
   /*
   useSate Steps
   1. create 
@@ -39,7 +48,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <div>
       <button className="close" onClick={handleClose}>
         &times;
       </button>
@@ -77,7 +86,7 @@ const App = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
