@@ -16,14 +16,21 @@ const App = () => {
   const [step, setStep] = useState(1); // step 1 : Create
 
   // use returns an array whose 1st element is the default value of the state and 2nd element i the function which updates the default value
+
   function handlePrevious() {
     if (step > 1) {
-      setStep(step - 1); // step 3 : update
+      // setStep(step - 1); // step 3 : update
+
+      // when we update state based on current state use callback func
+      setStep((s) => s - 1);
     }
   }
   function handleNext() {
     if (step < 3) {
-      setStep(step + 1); // step 3 : update
+      // setStep(step + 1); // step 3 : update
+
+      // when we update state based on current state use callback func
+      setStep((s) => s + 1);
     }
   }
 
