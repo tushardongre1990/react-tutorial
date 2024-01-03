@@ -6,11 +6,15 @@ const initialItems = [
 ];
 
 function App() {
+  const [items, setItems] = useState([]);
+  function handleAddItems(item) {
+    setItems((items) => [...items, item]);
+  }
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
+      <Form onAddItems={handleAddItems} />
+      <PackingList items={items} />
       <Stats />
     </div>
   );
@@ -20,21 +24,38 @@ const Logo = () => {
   return <h1>🌴Far Away 💼</h1>;
 };
 
-const Form = () => {
+const Form = ({ onAddItems }) => {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
+  /*  moved to <App/>
+
+  const [items, setItems] = useState([]);
+  function handleAddItems() {
+    setItems((item) => [...items, item]);
+  }
+  */
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!description) return;
+
     const newItem = {
       description,
       quantity,
       packed: false,
       id: Date.now(),
     };
+
+    /*
+    But this newl added item is not being rendered.
+    Rendering is done in <PackingList/>
+    <PackingList/> is sibling of <Form />
+    so move const [items, setItems] = useState([]) to the closest parent of <Form/> and <PackingList/> which is <App/>
+    */
+
     console.log(newItem);
+    onAddItems(newItem);
 
     setDescription("");
     setQuantity(1);
@@ -66,11 +87,11 @@ const Form = () => {
   );
 };
 
-const PackingList = () => {
+const PackingList = ({ items }) => {
   return (
     <div className="list">
       <ul>
-        {initialItems.map((item) => (
+        {items.map((item) => (
           <Item item={item} key={item.id} />
         ))}
       </ul>
