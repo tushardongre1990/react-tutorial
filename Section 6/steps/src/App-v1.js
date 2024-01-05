@@ -10,7 +10,7 @@ const App = () => {
   return (
     <div>
       <Step />
-      {/* <Step /> */}
+      <Step />
     </div>
   );
 };
@@ -64,13 +64,19 @@ const Step = () => {
             Step {step} : {messages[step - 1]}
           </p>
           <div className="buttons">
-            <Button textColor="#fff" bgColor="#7950f2" onClick={handlePrevious}>
-              <span>👈</span> Previous
-            </Button>
-            <Button textColor="#fff" bgColor="#7950f2" onClick={handleNext}>
-              Next <span>👉</span>
-            </Button>
-
+            <button
+              style={{ backgroundColor: "#7950f2", color: "#fff" }}
+              onClick={handlePrevious}
+            >
+              Previous
+            </button>
+            <button
+              style={{ backgroundColor: "#7950f2", color: "#fff" }}
+              onClick={handleNext}
+              // onClick={() => handleNext()} // can also written this way, but is redundant
+            >
+              Next
+            </button>
             {/* <button
           style={{ backgroundColor: "#7950f2", color: "#fff" }}
           onClick={() => alert("Next")} // don't directly call the alert func, call callback func i.e callback func is called when button is clicked
@@ -81,17 +87,6 @@ const Step = () => {
         </div>
       )}
     </div>
-  );
-};
-
-const Button = ({ textColor, bgColor, onClick, children }) => {
-  return (
-    <button
-      style={{ backgroundColor: bgColor, color: textColor }}
-      onClick={onClick}
-    >
-      {children}
-    </button>
   );
 };
 
