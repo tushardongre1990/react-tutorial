@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const tempMovieData = [
   {
@@ -56,7 +56,9 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
 
-  // dont update state in render logic like we have done below
+  /* dont update state in render logic like we have done below
+
+
   fetch(`http://www.omdbapi.com/?apikey=${key}&s=interstellar`)
     .then((res) => res.json())
     .then((data) => console.log(data.Search));
@@ -65,7 +67,18 @@ export default function App() {
   // fetch(`http://www.omdbapi.com/?apikey=${key}&s=interstellar`)
   //   .then((res) => res.json())
   //   .then((data) => setMovies(data.Search));
+   */
 
+  /**useEffect
+   * useEffect doesn't return anything
+   * it contains a function called effect inside which we can write our side-effect code/function
+   * useEffect's 2nd parameter is dependency array, which when is [] the side-effect is only run on mount i.e when App 1st renders
+   */
+  useEffect(function () {
+    fetch(`http://www.omdbapi.com/?apikey=${key}&s=interstellar`)
+      .then((res) => res.json())
+      .then((data) => setMovies(data.Search));
+  }, []);
   return (
     <>
       <Navbar>
