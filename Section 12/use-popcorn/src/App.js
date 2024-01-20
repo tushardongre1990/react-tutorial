@@ -55,6 +55,7 @@ const key = "d95ca90";
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
+  const query = "after dark";
 
   /* dont update state in render logic like we have done below
 
@@ -74,10 +75,22 @@ export default function App() {
    * it contains a function called effect inside which we can write our side-effect code/function
    * useEffect's 2nd parameter is dependency array, which when is [] the side-effect is only run on mount i.e when App 1st renders
    */
+  // useEffect( function () {
+  //    fetch(`http://www.omdbapi.com/?apikey=${key}&s=interstellar`)
+  //     .then((res) => res.json())
+  //     .then((data) => setMovies(data.Search));
+  // }, []);
+
   useEffect(function () {
-    fetch(`http://www.omdbapi.com/?apikey=${key}&s=interstellar`)
-      .then((res) => res.json())
-      .then((data) => setMovies(data.Search));
+    async function fetchMovies() {
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${key}&s=${query}`
+      );
+      const data = await res.json();
+      setMovies(data.Search);
+      console.log(data.Search);
+    }
+    fetchMovies();
   }, []);
   return (
     <>
