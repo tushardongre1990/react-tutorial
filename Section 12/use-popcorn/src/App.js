@@ -56,7 +56,8 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const query = "after dark";
+  const [error, setError] = useState("");
+  const query = "batman";
 
   /* dont update state in render logic like we have done below
 
@@ -84,13 +85,25 @@ export default function App() {
 
   useEffect(function () {
     async function fetchMovies() {
-      setIsLoading(true);
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${key}&s=${query}`
-      );
-      const data = await res.json();
-      setMovies(data.Search);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${key}&s=${query}`
+        );
+
+        if (!res.ok) {
+          throw new Error("Kuch to gadbad hai Daya !!");
+        }
+        const data = await res.json();
+        if (data.Response === "False") {
+          throw new Error("Nahi mili movie");
+        }
+        setMovies(data.Search);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
     fetchMovies();
   }, []);
@@ -101,7 +114,12 @@ export default function App() {
         <NumResult movies={movies} />
       </Navbar>
       <Main>
-        <Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box>
+        {/* <Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box> */}
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
         <Box>
           <WatchedSummary watched={watched} />
           <WatchedMovieList watched={watched} />
@@ -115,6 +133,14 @@ function Loader() {
     <div className="loader">
       <p>Loading ...</p>
     </div>
+  );
+}
+
+function ErrorMessage({ message }) {
+  return (
+    <p className="error">
+      <span>⛔</span> {message}
+    </p>
   );
 }
 
