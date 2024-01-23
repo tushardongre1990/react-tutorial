@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import StarRating from "./StarRating";
-import { func } from "prop-types";
 
 // const tempMovieData = [
 //   {
@@ -156,6 +155,8 @@ export default function App() {
         setError("");
         return;
       }
+
+      handleCloseMovie();
       fetchMovies();
 
       return function () {
@@ -432,6 +433,25 @@ function MovieDetail({ selectedId, onCloseMovie, onAddWatched, watched }) {
     [title]
   );
 
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+          console.log("Closed Movie");
+        }
+      }
+      document.addEventListener("keydown", callback);
+
+      // remove the event listener, because each time this component rerenders/mounts an eventlistener is added to the document
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+
+    [onCloseMovie]
+  );
+
   return (
     <div className="details">
       {isLoading ? (
@@ -510,7 +530,7 @@ function WatchedSummary({ watched }) {
         </p>
         <p>
           <span>⏳</span>
-          <span>{avgRuntime} min</span>
+          <span>{avgRuntime.toFixed(2)} min</span>
         </p>
       </div>
     </div>
