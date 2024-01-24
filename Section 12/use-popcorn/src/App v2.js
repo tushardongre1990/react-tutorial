@@ -386,24 +386,6 @@ function MovieDetail({ selectedId, onCloseMovie, onAddWatched, watched }) {
     Genre: genre,
   } = movie;
 
-  // const [isTop, setIsTop] = useState(imdbRating > 8);
-  // console.log(isTop);
-  /* in this console.log will always give false 'cause value of imdbRating is undefined when the component 1st mount and this state is never updated (since setIsTop never used)*/
-
-  // to make the above code work use, useEffect
-
-  // useEffect(
-  //   function () {
-  //     setIsTop(imdbRating > 8);
-  //   },
-  //   [imdbRating]
-  // );
-
-  /**
-   * above useEffect works but same thing can be achieved using derived state like shown below
-   */
-  // const isTop = imdbRating > 8;
-
   function handleAdd() {
     const newWatchedMovie = {
       imdbID: selectedId,
