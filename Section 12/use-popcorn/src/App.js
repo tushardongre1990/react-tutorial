@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StarRating from "./StarRating";
 
 // const tempMovieData = [
@@ -297,6 +297,31 @@ function Logo() {
 }
 
 function Search({ query, setQuery }) {
+  const inputEl = useRef(null); // null→ initial element/value
+
+  /**to use ref that contains DOM element we need use effect
+   *  Because ref gets added to the DOM element after DOM has already loaded
+   * so we can only access it in effect which also runs after DOM has been loaded
+  
+  */
+  useEffect(
+    function () {
+      // inputEl.current → DOM element
+      // console.log(inputEl.current);
+
+      function callback(e) {
+        if (document.activeElement === inputEl.current) {
+          return;
+        }
+        if (e.code === "Enter") {
+          inputEl.current.focus();
+          setQuery("");
+        }
+      }
+      document.addEventListener("keydown", callback);
+    },
+    [setQuery]
+  );
   return (
     <input
       className="search"
@@ -304,6 +329,7 @@ function Search({ query, setQuery }) {
       placeholder="Search movies..."
       value={query}
       onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
     />
   );
 }
