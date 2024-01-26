@@ -55,11 +55,20 @@ const key = "d95ca90";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+
+  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(function () {
+    const storedValue = localStorage.getItem("watched");
+    return JSON.parse(storedValue);
+  });
+  //function in useState needs to be pure function i.e doesn't have any arugument
+  //also this function is only considered when component mounts
+
+  //useState(localStorage.getItem("watched")); →  don't call the function in useState because although the value returned by the function is ignored, the function gets called on every render
 
   /* dont update state in render logic like we have done below
 
@@ -111,11 +120,25 @@ export default function App() {
 
   function handleWatched(movie) {
     setWatched((watched) => [...watched, movie]);
+
+    // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
+    //[...watched, movie]→ have to do this way 'cause watched is in stale state(not updated)
+
+    // don't do this way 'cause now we have to delete movie when we remove the movie from list
+    //  Instead use useEffect because this way effect is synchronized with watched movies
   }
 
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
+
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+      // doesn't have t spread the watched array 'cause effect is run every time watched changes
+    },
+    [watched]
+  );
 
   useEffect(
     function () {
