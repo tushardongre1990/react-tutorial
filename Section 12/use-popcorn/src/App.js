@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import StarRating from "./StarRating";
 import { useMovies } from "./useMovies";
 import { useLocalStorageState } from "./useLocalStorageState";
+import { useKey } from "./useKey";
 
 // const tempMovieData = [
 //   {
@@ -199,24 +200,13 @@ function Search({ query, setQuery }) {
    * so we can only access it in effect which also runs after DOM has been loaded
   
   */
-  useEffect(
-    function () {
-      // inputEl.current → DOM element
-      // console.log(inputEl.current);
 
-      function callback(e) {
-        if (document.activeElement === inputEl.current) {
-          return;
-        }
-        if (e.code === "Enter") {
-          inputEl.current.focus();
-          setQuery("");
-        }
-      }
-      document.addEventListener("keydown", callback);
-    },
-    [setQuery]
-  );
+  useKey("Enter", function () {
+    if (document.activeElement === inputEl.current) return;
+    inputEl.current.focus();
+    setQuery("");
+  });
+
   return (
     <input
       className="search"
@@ -257,29 +247,6 @@ function Box({ children }) {
     </div>
   );
 }
-
-// function WatchedBox() {
-//   const [watched, setWatched] = useState(tempWatchedData);
-
-//   const [isOpen2, setIsOpen2] = useState(true);
-
-//   return (
-//     <div className="box">
-//       <button
-//         className="btn-toggle"
-//         onClick={() => setIsOpen2((open) => !open)}
-//       >
-//         {isOpen2 ? "–" : "+"}
-//       </button>
-//       {isOpen2 && (
-//         <>
-//           <WatchedSummary watched={watched} />
-//           <WatchedMovieList watched={watched} />
-//         </>
-//       )}
-//     </div>
-//   );
-// }
 
 function MovieList({ movies, onSelectMovie }) {
   return (
@@ -405,25 +372,7 @@ function MovieDetail({ selectedId, onCloseMovie, onAddWatched, watched }) {
     },
     [title]
   );
-
-  useEffect(
-    function () {
-      function callback(e) {
-        if (e.code === "Escape") {
-          onCloseMovie();
-          console.log("Closed Movie");
-        }
-      }
-      document.addEventListener("keydown", callback);
-
-      // remove the event listener, because each time this component rerenders/mounts an eventlistener is added to the document
-      return function () {
-        document.removeEventListener("keydown", callback);
-      };
-    },
-
-    [onCloseMovie]
-  );
+  useKey("Escape", onCloseMovie);
 
   return (
     <div className="details">
