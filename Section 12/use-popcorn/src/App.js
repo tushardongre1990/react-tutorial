@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import StarRating from "./StarRating";
 import { useMovies } from "./useMovies";
+import { useLocalStorageState } from "./useLocalStorageState";
 
 // const tempMovieData = [
 //   {
@@ -57,59 +58,9 @@ const key = "d95ca90";
 export default function App() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [watched, setWatched] = useLocalStorageState([], "watched");
 
   const { movies, isLoading, error } = useMovies(query);
-
-  // const [watched, setWatched] = useState([]);
-  const [watched, setWatched] = useState(function () {
-    const storedValue = localStorage.getItem("watched");
-    return JSON.parse(storedValue);
-  });
-  //function in useState needs to be pure function i.e doesn't have any arugument
-  //also this function is only considered when component mounts
-
-  //useState(localStorage.getItem("watched")); →  don't call the function in useState because although the value returned by the function is ignored, the function gets called on every render
-
-  /* dont update state in render logic like we have done below
-
-
-  fetch(`http://www.omdbapi.com/?apikey=${key}&s=interstellar`)
-    .then((res) => res.json())
-    .then((data) => console.log(data.Search));
-
-  //  Below code send request infinite times as component rerenders when state is updated and setMovies is executed whenever component renders/re-renders
-  // fetch(`http://www.omdbapi.com/?apikey=${key}&s=interstellar`)
-  //   .then((res) => res.json())
-  //   .then((data) => setMovies(data.Search));
-   */
-
-  /**useEffect
-   * useEffect doesn't return anything
-   * it contains a function called effect inside which we can write our side-effect code/function
-   * useEffect's 2nd parameter is dependency array, which when is [] the side-effect is only run on mount i.e when App 1st renders
-   */
-  // useEffect( function () {
-  //    fetch(`http://www.omdbapi.com/?apikey=${key}&s=interstellar`)
-  //     .then((res) => res.json())
-  //     .then((data) => setMovies(data.Search));
-  // }, []);
-
-  /* useEffect Experiments
-  useEffect(function () {
-    console.log("After initial render");
-  }, []);
-  useEffect(function () {
-    console.log("After every render");
-  });
-  console.log("During render");
-
-  useEffect(
-    function () {
-      console.log("D");
-    },
-    [query]
-  ); // syncronized with query i.e rerenders when query is changed/updated
-  */
 
   function handleSelectMovie(id) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
@@ -131,14 +82,6 @@ export default function App() {
   function handleDeleteWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
-
-  useEffect(
-    function () {
-      localStorage.setItem("watched", JSON.stringify(watched));
-      // doesn't have t spread the watched array 'cause effect is run every time watched changes
-    },
-    [watched]
-  );
 
   return (
     <>
