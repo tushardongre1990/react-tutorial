@@ -23,7 +23,7 @@ function reducer(state, action) {
 
 function DateCounter() {
   /**useReducer takes 2 arguments
-   * 0 : initial stae
+   * 0 : initial state
    * reducer : function, has access to current state and action that we pass into dispatch function
    * dispatch is one of the things returned by useReducer
    */
