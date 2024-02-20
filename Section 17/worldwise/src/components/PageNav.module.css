@@ -1,0 +1,15 @@
+.nav {
+  background-color: grey;
+}
+.nav ul {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+.nav :global(.active) {
+  background-color: greenyellow;
+}
+/*
+*:global(.active) → doesn't add random text in front of active
+* useful when using external classes
+*/
