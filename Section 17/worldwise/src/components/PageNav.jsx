@@ -1,0 +1,22 @@
+import { NavLink } from "react-router-dom";
+
+function PageNav() {
+  return (
+    <nav>
+      <ul>
+        <li>
+          {/* NavLink give a class active in the final html which can be used to display the current active page/link */}
+          <NavLink to="/">Home</NavLink>
+        </li>
+        <li>
+          <NavLink to="/pricing">Pricing</NavLink>
+        </li>
+        <li>
+          <NavLink to="/product">Product</NavLink>
+        </li>
+      </ul>
+    </nav>
+  );
+}
+
+export default PageNav;
