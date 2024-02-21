@@ -1,19 +1,22 @@
 import { NavLink } from "react-router-dom";
+import Logo from "./Logo";
 import styles from "./PageNav.module.css";
 
 function PageNav() {
   return (
     <nav className={styles.nav}>
+      <Logo />
       <ul>
-        <li>
-          {/* NavLink give a class active in the final html which can be used to display the current active page/link */}
-          <NavLink to="/">Home</NavLink>
-        </li>
         <li>
           <NavLink to="/pricing">Pricing</NavLink>
         </li>
         <li>
           <NavLink to="/product">Product</NavLink>
+        </li>
+        <li>
+          <NavLink to="/login" className={styles.ctaLink}>
+            Login
+          </NavLink>
         </li>
       </ul>
     </nav>
