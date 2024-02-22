@@ -11,3 +11,5 @@ function AppLayout() {
 }
 
 export default AppLayout;
+
+// Nested routes are needed when part of interface is to be controlled with part of url
