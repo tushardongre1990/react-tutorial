@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 
 import Homepage from "./pages/Homepage";
 import Pricing from "./pages/Pricing";
@@ -9,6 +9,7 @@ import PageNotFound from "./pages/PageNotFound";
 import AppLayput from "./pages/AppLayout";
 import CityList from "./components/CityList";
 import CountryList from "./components/CountryList";
+import City from "./components/City";
 
 const BASE_URL = "http://localhost:8000";
 
@@ -49,6 +50,9 @@ function App() {
             path="cities"
             element={<CityList cities={cities} isLoading={isLoading} />}
           />
+          {/* useParam: step 1 - create a route */}
+          <Route path="cities/:id" element={<City />} />
+
           <Route
             path="countries"
             element={<CountryList cities={cities} isLoading={isLoading} />}
@@ -62,3 +66,8 @@ function App() {
 }
 
 export default App;
+
+/**Steps for useParams with react router
+ * - create a route
+ * - link to the created routed
+ * - read the state in the url frpm that route*/
