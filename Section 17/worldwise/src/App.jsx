@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useParams,
+  Navigate,
+} from "react-router-dom";
 
 import Homepage from "./pages/Homepage";
 import Pricing from "./pages/Pricing";
@@ -43,10 +49,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="app" element={<AppLayput />}>
           {/* index route is the default route is nothing is specified */}
-          <Route
-            index
-            element={<CityList cities={cities} isLoading={isLoading} />}
-          />
+          <Route index element={<Navigate replace to="cities" />} />
           <Route
             path="cities"
             element={<CityList cities={cities} isLoading={isLoading} />}
