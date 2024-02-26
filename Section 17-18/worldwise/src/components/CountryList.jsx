@@ -3,7 +3,9 @@ import CountryItem from "./CountryItem";
 import styles from "./CountryList.module.css";
 import Spinner from "./Spinner";
 import Message from "./Message";
-function CountriesList({ cities, isLoading }) {
+import { useCities } from "../contexts/CitiesContext.jsx";
+function CountriesList() {
+  const { cities, isLoading } = useCities();
   if (isLoading) return <Spinner />;
   if (!cities.length) {
     return (
