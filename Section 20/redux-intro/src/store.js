@@ -41,17 +41,46 @@ function reducer(state = initialState, action) {
 
 const store = createStore(reducer);
 
-store.dispatch({ type: "account/deposit", payload: 500 });
+// store.dispatch({ type: "account/deposit", payload: 500 });
+// console.log(store.getState());
+
+// store.dispatch({ type: "account/withdraw", payload: 200 });
+// console.log(store.getState());
+
+// store.dispatch({
+//   type: "account/requestLoan",
+//   payload: { amount: 5000, purpose: "Smoke a shit ton " },
+// });
+// console.log(store.getState());
+
+// store.dispatch({ type: "account/payLoan" });
+// console.log(store.getState());
+
+// Action creators : functions that return actions
+
+function deposit(amount) {
+  return { type: "account/deposit", payload: amount };
+}
+store.dispatch(deposit(500));
 console.log(store.getState());
 
-store.dispatch({ type: "account/withdraw", payload: 200 });
+function withdraw(amount) {
+  return { type: "account/withdraw", payload: amount };
+}
+store.dispatch(withdraw(300));
 console.log(store.getState());
 
-store.dispatch({
-  type: "account/requestLoan",
-  payload: { amount: 5000, purpose: "Smoke a shit ton " },
-});
+function requestLoan(amount, purpose) {
+  return {
+    type: "account/requestLoan",
+    payload: { amount, purpose },
+  };
+}
+store.dispatch(requestLoan(5000, "Clapping cheeks"));
 console.log(store.getState());
 
-store.dispatch({ type: "account/payLoan" });
+function payLoan() {
+  return { type: "account/payLoan" };
+}
+store.dispatch(payLoan());
 console.log(store.getState());
