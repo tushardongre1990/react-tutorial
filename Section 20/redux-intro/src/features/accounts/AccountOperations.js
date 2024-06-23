@@ -22,13 +22,13 @@ function AccountOperations() {
     if (!depositAmount) return;
     dispatch(deposit(depositAmount, currency)); // dispatch will receive function if currency is not USD.
     setDepositAmount("");
+    setCurrency("USD");
   }
 
   function handleWithdrawal() {
     if (!withdrawalAmount) return;
     dispatch(withdraw(withdrawalAmount));
     setWithdrawalAmount("");
-    setCurrency("");
   }
 
   function handleRequestLoan() {
