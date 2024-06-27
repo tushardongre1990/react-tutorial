@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./ui/Home";
-import Menu from "./features/menu/Menu";
+import Menu, { loader as menuLoader } from "./features/menu/Menu";
 import Cart from "./features/cart/Cart";
 import Order from "./features/order/Order";
 import CreateOrder from "./features/order/CreateOrder";
@@ -18,6 +18,7 @@ const router = createBrowserRouter([
       {
         path: "/menu",
         element: <Menu />,
+        loader: menuLoader, // 2. connect loader to route
       },
       {
         path: "/cart",
@@ -39,3 +40,11 @@ function App() {
   return <RouterProvider router={router} />;
 }
 export default App;
+
+/**
+ * Idea behind Loader is
+ * 1. We define a function that uses a API to fetch some data
+ * 2. We then provide this Loader function to one of the routes,
+ *    That route will fetch the data as soon as the application goes to that route
+ * 3. In the end, once that data is arrived it will be provided to the page component itself using a custom hook
+ */
