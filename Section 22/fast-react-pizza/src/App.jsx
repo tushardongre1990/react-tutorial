@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./ui/Home";
+import Error from "./ui/Error";
 import Menu, { loader as menuLoader } from "./features/menu/Menu";
 import Cart from "./features/cart/Cart";
 import Order from "./features/order/Order";
@@ -10,6 +11,7 @@ import AppLayout from "./ui/AppLayout";
 const router = createBrowserRouter([
   {
     element: <AppLayout />, // parent route of all other routes
+    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -19,6 +21,7 @@ const router = createBrowserRouter([
         path: "/menu",
         element: <Menu />,
         loader: menuLoader, // 2. connect loader to route
+        errorElement: <Error />, // if error is not handled here it will bubble up to the parent route (/) and only the error component will be displayed on whole page
       },
       {
         path: "/cart",
