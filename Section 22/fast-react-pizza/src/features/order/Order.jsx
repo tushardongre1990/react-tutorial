@@ -54,6 +54,7 @@ function Order() {
 
 export async function loader({ params }) {
   const order = await getOrder(params.orderId); // since we have used orderId as param in App.jsx (path: "/order/:orderId")
+  return order;
 }
 
 export default Order;
