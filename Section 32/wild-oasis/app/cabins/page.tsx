@@ -1,3 +1,6 @@
+import Counter from "../components/Counter";
+import { User } from "../types/myTypes";
+
 export default async function CabinsPage() {
   const res = await fetch("https://jsonplaceholder.typicode.com/users");
   const data: User[] = await res.json();
@@ -14,20 +17,7 @@ export default async function CabinsPage() {
           <li key={user.id}>{user.name}</li>
         ))}
       </ul>
+      <Counter user={data} />
     </div>
   );
 }
-
-type User = {
-  id: number;
-  name: string;
-  email: string;
-  address: {
-    street: string;
-    city: string;
-    geo: {
-      lat: string;
-      lng: string;
-    };
-  };
-};
